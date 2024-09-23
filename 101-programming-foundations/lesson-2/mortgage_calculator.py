@@ -128,24 +128,15 @@ def calculation():
         apr = get_apr()
         loan_duration = get_loan_duration()
 
-        def get_monthly_payment():
-        #global monthly_payment
-
-            try:
-                # calculate monthly interest rate
-                monthly_rate = apr / 12
-
-                # print(monthly_rate)
-                #calcultate monthly_payment
-                monthly_payment = loan_amount * \
-                   (monthly_rate / (1 - (1 + monthly_rate)**\
-                                     (- loan_duration )))
-            except ZeroDivisionError:
-                monthly_payment = loan_amount / loan_duration
-
-            return monthly_payment
-
-        monthly_payment = get_monthly_payment()
+        try:
+            # calculate monthly interest rate
+            monthly_rate = apr / 12
+            #calcultate monthly_payment
+            monthly_payment = loan_amount * \
+                (monthly_rate / (1 - (1 + monthly_rate)**\
+                                    (- loan_duration )))
+        except ZeroDivisionError:
+            monthly_payment = loan_amount / loan_duration
 
     print(f'\nYour monthly payment is {monthly_payment:.2f}')
 
