@@ -4,8 +4,8 @@
         False
         None
         0
-        0.0
         0j
+        0.0
         "" (an empty string)
         [] (an empty list)
         {} (an empty dictionary)

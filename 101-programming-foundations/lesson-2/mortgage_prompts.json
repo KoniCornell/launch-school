@@ -1,0 +1,12 @@
+{
+    "welcome" : "Welcome to the loan calculator <==",
+    "loan_amount" : "Please enter the loan amount:",
+    "not_valid" : "Hmm... that doesn't look like a valid number.",
+    "loan_zero" : "",
+    "apr" : "Please enter the Annual Percentage Rate (APR): ",
+    "apr_negative" : "The Annual Percentage Rate (APR) \ncannot be less than 0.",
+    "loan_duration" : "Please enter the loan duration in months: \n(Must be in months. i.e 2 years = 24 months)",
+    "loan_duration_zero" : "The loan duration cannot be zero. \nPlease enter a valid loan duration: ",
+    "another_calculation" : "Would you like to perform another calculation? (y/n) ",
+    "bye" : "Thank you for using the mortgage calculator. BYE!"
+}
