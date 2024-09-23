@@ -10,5 +10,5 @@ hello()
 
 print(name.lower())
 
-print(786.lower())
+
 

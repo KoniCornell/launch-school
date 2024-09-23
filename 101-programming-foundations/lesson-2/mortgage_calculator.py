@@ -28,8 +28,13 @@ interest is compounded monthly.
 # voila!
 
 import json
+import math
 
 FILE_PATH = 'lesson-2/mortgage_prompts.json'
+
+NAN = math.nan
+INF = math.inf
+CASES = ['0', 0.0, NAN, INF]
 
 with open(FILE_PATH, 'r') as file:
     messages = json.load(file)
@@ -53,13 +58,8 @@ def get_loan_amount():
     #global loan_amount
     loan_amount = input()
     while loan_amount:
-        if loan_amount in ['0', 0.0]:
-            #change to if 0, restart.
-            # print('The loan amount cannot be zero')
-            # print('Please enter a valid loan amount: ')
+        if loan_amount in CASES:
             loan_amount = 0
-            # another_calculation
-            # main()
             break
         while invalid_input(loan_amount):
             prompt(messages["not_valid"])
@@ -75,7 +75,11 @@ def get_apr():
     apr = input()
 
     while apr:
-        if apr[0] == '-':
+        if apr in {CASES[2], CASES[3]}:
+            prompt(messages["not_valid"])
+            apr = input()
+
+        elif apr[0] == '-':
             prompt(messages["apr_negative"])
             apr = input()
 
@@ -97,7 +101,7 @@ def get_loan_duration():
 
     # handle edge cases for loan duration
     while loan_duration:
-        if loan_duration in ['0', 0.0]:
+        if loan_duration in CASES:
             prompt(messages["loan_duration_zero"])
             loan_duration = input()
         else:
@@ -151,7 +155,7 @@ def main():
         result = another_calculation()
 
         try:
-            result.lower()
+            result = result.lower()
 
             if result not in ['y', 'yes']:
                 prompt(messages["bye"])
