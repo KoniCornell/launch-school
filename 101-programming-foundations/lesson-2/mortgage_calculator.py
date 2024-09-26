@@ -29,12 +29,13 @@ interest is compounded monthly.
 
 import json
 import math
+import os
 
 FILE_PATH = 'lesson-2/mortgage_prompts.json'
 
 NAN = math.nan
 INF = math.inf
-CASES = ['0', 0.0, NAN, INF]
+CASES = [NAN, INF, None, '', '0']
 
 with open(FILE_PATH, 'r') as file:
     messages = json.load(file)
@@ -47,6 +48,8 @@ prompt(messages["welcome"])
 # check if the input is valid
 def invalid_input(number_str):
     try:
+        if (number_str in CASES) or (number_str[0] == '-'):
+            return True
         float(number_str)
     except ValueError:
         return True
@@ -55,52 +58,37 @@ def invalid_input(number_str):
 def get_loan_amount():
     # get the loan amount
     prompt(messages["loan_amount"])
-    #global loan_amount
     loan_amount = input()
-    while loan_amount:
-        if loan_amount in CASES:
-            loan_amount = 0
-            break
-        while invalid_input(loan_amount):
-            prompt(messages["not_valid"])
-            loan_amount = input()
-        break
+    while invalid_input(loan_amount):
+        prompt(messages["not_valid"])
+        loan_amount = input()
     loan_amount = float(loan_amount)
     return loan_amount
 
 def get_apr():
-    #global apr
     #get the apr
     prompt(messages["apr"])
     apr = input()
 
-    while apr:
-        if apr in {CASES[2], CASES[3]}:
+    while True:
+        if apr == '0':
+            break
+        while invalid_input(apr):
             prompt(messages["not_valid"])
             apr = input()
-
-        elif apr[0] == '-':
-            prompt(messages["apr_negative"])
-            apr = input()
-
-        else:
-            while invalid_input(apr):
-                prompt(messages["not_valid"])
-                apr = input()
-            break
+        break
 
     apr = float(apr)
     return apr
 
 def get_loan_duration():
-    #global loan_duration
     #get the loan duration
     prompt(messages["loan_duration"])
 
     loan_duration = input()
 
     # handle edge cases for loan duration
-    while loan_duration:
+    while True:
         if loan_duration in CASES:
             prompt(messages["loan_duration_zero"])
             loan_duration = input()
@@ -114,7 +102,6 @@ def get_loan_duration():
     return loan_duration
 
 def another_calculation():
-    #global answer
     prompt(messages["another_calculation"])
     answer = input()
     return answer
@@ -127,10 +114,9 @@ def calculation():
     else:
         apr = get_apr()
         loan_duration = get_loan_duration()
-
         try:
             # calculate monthly interest rate
-            monthly_rate = apr / 12
+            monthly_rate = (apr / 100) / 12
             #calcultate monthly_payment
             monthly_payment = loan_amount * \
                 (monthly_rate / (1 - (1 + monthly_rate)**\
@@ -140,18 +126,36 @@ def calculation():
 
     print(f'\nYour monthly payment is {monthly_payment:.2f}')
 
-def main():
+def again(choice):
     while True:
+        try:
+            choice = choice.lower()
+
+        except (AttributeError, TypeError):
+            prompt(messages["repeat"])
+            choice = another_calculation()
+
+        if choice not in ['y', 'yes', 'n', 'no']:
+            prompt(messages["repeat"])
+            choice = another_calculation()
+        elif choice in ['n', 'no']:
+            prompt(messages["bye"])
+            return False
+        else:
+            console_clear()
+            return True
+
+def console_clear():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+def main():
+    loop = True
+    while loop:
         calculation()
         result = another_calculation()
+        loop = again(result)
 
-        try:
-            result = result.lower()
-
-            if result not in ['y', 'yes']:
-                prompt(messages["bye"])
-                break
-        except (AttributeError, TypeError):
-            prompt(messages["bye"])
-            break
 main()
