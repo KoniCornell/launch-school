@@ -9,5 +9,5 @@
     "loan_duration_zero" : "The loan duration cannot be zero. \nPlease enter a valid loan duration: ",
     "another_calculation" : "Would you like to perform another calculation? (y/n) ",
     "repeat" : "Sorry, I did not get that. Try Again.",
-    "bye" : "Thank you for using the mortgage calculator. BYE!"
+    "bye" : "c"
 }

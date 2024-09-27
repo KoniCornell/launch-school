@@ -4,6 +4,11 @@ def utf16_value(word):
         total += ord(i)
     return total
 
+#using comprehension
+# def utf16_value(string):
+#     return sum([ord(char) for char in string])
+
+
 # These examples should all print True
 print(utf16_value('Four score') == 984)
 print(utf16_value('Launch School') == 1251)
