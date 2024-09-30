@@ -64,17 +64,30 @@ def choice_check(choice):
     choice = choice.lower()
     while choice not in VALID_CHOICES:
         prompt("Hmm... that doesn't look like a valid choice.Try Again.\n")
-        prompt(f'Choose one: {",".join(VALID_CHOICES[:5])}')
-        prompt('You can use sp for spock and first letters for the rest.')
+        prompt('Choose one: (r)  Rock\n'
+           '            (p)  Paper\n'
+           '            (s) Scissors\n'
+           '            (l)  Lizard\n'
+           '            (sp) Spock')
         choice = input().lower()
     return choice
 
-prompt('Welcome to the Rock, Paper, Scissors, Lizard, Spock game!')
+print()
+print('-----------------------------------')
+print()
+print('             WELCOME TO')
+print('         ROCK PAPER SCISSORS')
+print('            LIZARD SPOCK')
+print()
+print('-----------------------------------')
 print()
 
 def get_player_choice():
-    prompt(f'Choose one: {",".join(VALID_CHOICES[:5])}')
-    prompt('You can use sp for spock and first letters for the rest.')
+    prompt('Choose one: (r)  Rock\n'
+           '            (p)  Paper\n'
+           '            (s) Scissors\n'
+           '            (l)  Lizard\n'
+           '            (sp) Spock')
     answer = input()
     answer = choice_check(answer)
     return answer
@@ -201,9 +214,7 @@ def main():
             player_score, computer_score = (
                 display_winner(player_choice, computer_choice,
                            player_score, computer_score))
-            # print(player_score, computer_score)
-            # counter -= 1
-            # console_clear()
         loop = another_round()
 
-main()
+if __name__ == '__main__':
+    main()
