@@ -187,20 +187,10 @@ lst = [
 ]
 
 def check_even(element: list):
-    # print(element)
     return all([j % 2 == 0 for i in element
                             for j in i])
 
 even_lst = [item for item in lst
                 if check_even(list(item.values()))]
 
-# for item in lst:
-#     print(list(item.values()))
-    
-
-# flat_lst = [[num for num in item.values()] for item in lst]
-# print(flat_lst)
-
-
-print(even_lst)
-# print(check_even([2, 3, 6]))
+print(even_lst) # [{'e': [8], 'f': [6, 10]}]
