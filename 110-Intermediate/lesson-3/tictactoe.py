@@ -1,0 +1,154 @@
+'''
+Building a game of tic tac toe
+    1. Display the initial empty 3x3 board.
+    2. Ask the user to mark a square.
+    3. Computer marks a square.
+    4. Display the updated board state.
+    5. If it's a winning board, display the winner.
+    6. If the board is full, display tie.
+    7. If neither player won and the board is not full, go to #2
+    8. Play again?
+    9. If yes, go to #1
+    10. Goodbye!
+'''
+
+import random
+import os
+
+# Constants
+INITIAL_MARKER = ' '
+HUMAN_MARKER = 'X'
+COMPUTER_MARKER = 'O'
+
+# Display an empty board
+def prompt(message):
+    print(f'==> {message}')
+
+def display_board(board):
+    clear_screen()
+
+    prompt(f"You are {HUMAN_MARKER}. Computer is {COMPUTER_MARKER}.")
+
+    print('')
+    print('     |     |')
+    print(f"  {board[1]}  |  {board[2]}  |  {board[3]}")
+    print('     |     |')
+    print('-----+-----+-----')
+    print('     |     |')
+    print(f"  {board[4]}  |  {board[5]}  |  {board[6]}")
+    print('     |     |')
+    print('-----+-----+-----')
+    print('     |     |')
+    print(f"  {board[7]}  |  {board[8]}  |  {board[9]}")
+    print('     |     |')
+    print('')
+
+def clear_screen():
+    # For Windows
+    if os.name == 'nt':
+        _ = os.system('cls')
+    # For macOS and Linux
+    else:
+        _ = os.system('clear')
+
+
+
+def initialize_board():
+    return {square: INITIAL_MARKER for square in range(1,10)}
+
+
+# board = initialize_board()
+# display_board(board)
+
+# 2. Ask the user to mark a square.
+
+
+
+def empty_squares(board):
+    return [key 
+            for key, value in board.items() 
+            if value == INITIAL_MARKER]
+
+def player_chooses_square(board):
+
+    while True:
+        valid_choices = [str(num) for num in empty_squares(board)]
+        prompt(f'Choose a square {','.join(valid_choices)}:')
+        square = input()
+
+        if square in valid_choices:
+            break
+        
+        prompt('Sorry, that is not a valid choice.')
+
+    board[int(square)] = HUMAN_MARKER
+
+# 3. Computer marks a square.
+
+def computer_chooses_square(board):
+    if len(empty_squares(board)) == 0:
+        return
+    square = random.choice(empty_squares(board))
+    board[square] = COMPUTER_MARKER
+
+# check winner or tie
+def someone_won(board):
+    return bool(detect_winner(board))
+
+def board_full(board):
+    return len(empty_squares(board)) == 0
+
+def detect_winner(board):
+    winning_lines = [
+        [1, 2, 3], [4, 5, 6], [7, 8, 9],
+        [1, 4, 7], [2, 5, 8], [3, 6, 9],
+        [1, 5, 9], [3, 5, 7]
+    ]
+
+    for line in winning_lines:
+        sq1, sq2, sq3 = line
+        checker = {board[sq1], board[sq2], board[sq3]}
+
+        if checker == {HUMAN_MARKER}:
+            return 'Player'
+        elif checker == {COMPUTER_MARKER}:
+            return 'Computer'
+        
+    return None
+
+# main loop
+
+def play_tic_tac_toe():
+    while True:
+        board = initialize_board()
+
+        while True:
+            display_board(board)
+            
+            player_chooses_square(board)
+            if someone_won(board) or board_full(board):
+                break
+
+            computer_chooses_square(board)
+            if someone_won(board) or board_full(board):
+                break
+
+        display_board(board)
+
+        # winner or tie
+        if someone_won(board):
+            prompt(f'{detect_winner(board)} won!')
+        else:
+            prompt("It's a tie.")
+
+        # play again
+        prompt('Play again? (y or n)')
+        answer = input().lower()
+
+        if answer not in ['y', 'yes']:
+            break
+
+    prompt('Thanks for playing TicTacToe')
+
+
+play_tic_tac_toe()
