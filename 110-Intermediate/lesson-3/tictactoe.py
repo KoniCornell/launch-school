@@ -24,8 +24,16 @@ COMPUTER_MARKER = 'O'
 def prompt(message):
     print(f'==> {message}')
 
+def welcome():
+    print('*' * 30)
+    prompt(' Welcome to TicTacToe. <==')
+    prompt('     Best of 5 game    <==')
+    print('*' * 30)
+
+welcome()
+
 def display_board(board):
-    clear_screen()
+    
 
     prompt(f"You are {HUMAN_MARKER}. Computer is {COMPUTER_MARKER}.")
 
@@ -69,11 +77,28 @@ def empty_squares(board):
             for key, value in board.items() 
             if value == INITIAL_MARKER]
 
+
+def join_or(lst: list, delimiter: str = ', ', last: str = 'or'):
+    lst = [str(char) for char in lst]
+    last = f'{last} '
+
+    if len(lst) < 1:
+        return ''
+    
+    elif len(lst) == 1:
+        return str(*lst)
+    
+    elif len(lst) == 2:
+        return (' '+last).join(lst)
+    else:
+        string = delimiter.join(lst)
+        return ''.join([string[:-1], last, str(string[-1])])
+
 def player_chooses_square(board):
 
     while True:
         valid_choices = [str(num) for num in empty_squares(board)]
-        prompt(f'Choose a square {','.join(valid_choices)}:')
+        prompt(f'Choose a square {join_or(valid_choices)}:')
         square = input()
 
         if square in valid_choices:
@@ -88,6 +113,18 @@ def player_chooses_square(board):
 def computer_chooses_square(board):
     if len(empty_squares(board)) == 0:
         return
+    # winning_lines = [
+    #     [1, 2, 3], [4, 5, 6], [7, 8, 9],
+    #     [1, 4, 7], [2, 5, 8], [3, 6, 9],
+    #     [1, 5, 9], [3, 5, 7]
+    # ]
+    # for line in winning_lines:
+    #     sq1, sq2, sq3 = line
+    #     if (board[sq1], board[sq2]) == (HUMAN_MARKER, HUMAN_MARKER):
+    #         square = sq3
+    #         board[square] = COMPUTER_MARKER
+    #         return
+
     square = random.choice(empty_squares(board))
     board[square] = COMPUTER_MARKER
 
@@ -116,39 +153,84 @@ def detect_winner(board):
         
     return None
 
+# score
+def display_winner(players: dict):
+    print()
+    prompt('Game Over')
+    print()
+    if players['player'] > players['computer']:
+        prompt('player won!')
+        prompt(f'player: {players['player']}')
+        prompt(f'computer: {players['computer']}')
+    
+    elif players['player'] < players['computer']:
+        prompt('player won!')
+        prompt(f'player: {players['player']}')
+        prompt(f'computer: {players['computer']}')
+    
+    else:
+        prompt("It's a tie.")
+    
+    return
+
+def display_scores(player_scores: dict):
+    prompt(f'player: {player_scores['player']}')
+    prompt(f'computer: {player_scores['computer']}')
+
+# play again 
+def play_again():
+    prompt('Play again? (y or n)')
+    answer = input().lower()
+
+    if answer not in ['y', 'yes']:
+        prompt('Thanks for playing TicTacToe')
+        return 
+    
+    play_tic_tac_toe()
+
+
 # main loop
 
 def play_tic_tac_toe():
-    while True:
+    scores = {
+        'player': 0,
+        'computer': 0
+        }
+    games = 0
+    while games < 5:
         board = initialize_board()
+        prompt('The scores are: ')
+        display_scores(scores)
+        print()
 
         while True:
             display_board(board)
             
             player_chooses_square(board)
             if someone_won(board) or board_full(board):
+                scores['player'] += 1
                 break
 
             computer_chooses_square(board)
             if someone_won(board) or board_full(board):
+                scores['computer'] += 1
                 break
 
         display_board(board)
 
         # winner or tie
         if someone_won(board):
-            prompt(f'{detect_winner(board)} won!')
+            prompt(f'{detect_winner(board)} won this round!')
         else:
             prompt("It's a tie.")
+        games += 1
 
-        # play again
-        prompt('Play again? (y or n)')
-        answer = input().lower()
+    # display winner
+    display_winner(scores)
 
-        if answer not in ['y', 'yes']:
-            break
+    # play again
+    play_again()
 
-    prompt('Thanks for playing TicTacToe')
 
 
 play_tic_tac_toe()

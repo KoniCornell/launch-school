@@ -5,7 +5,6 @@ Each kind of comprehension works something like this:
 result = empty_collection               # [], {}, set()
 for item in collection:
     result.append(item)
-
 '''
 # format for list comprehensions
 
@@ -17,7 +16,6 @@ Here, we're iterating over the numbers in the indicated range: 0, 1, 2, 3, 4.
 We compute the square with number * number for each number. 
 Finally, Python collects all the squares into a list and assigns 
 the list to the squares variable. Voila! We now have a list of squares.
-
 '''
 
 squares = [ number * number for number in range(5)]

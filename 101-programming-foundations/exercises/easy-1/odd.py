@@ -10,7 +10,7 @@ def odd_absolutely(number):
         return number % 2 != 0
     
 # simpler solution is to use abs()    
-#print(abs(-1))
+# print(abs(-1))
 
 
 print(odd_absolutely(-3))
@@ -20,9 +20,11 @@ print(odd_absolutely(2))
 
 
 '''
-def is_odd(num):
-    return True if abs(num) % 2 != 0 else False
+def odd(number):
+    return abs(number) % 2 != 0
 
+
+print(odd(5))
 '''
 
 
