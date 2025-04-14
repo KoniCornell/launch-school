@@ -22,3 +22,5 @@ sparky.roll_over()         # Sparky is rolling over.
 rover = GoodDog('Rover')   # Constructor for Rover
 rover.speak()              # Rover says Woof!
 rover.roll_over()          # Rover is rolling
+
+print(sparky.__class__.__name__)
