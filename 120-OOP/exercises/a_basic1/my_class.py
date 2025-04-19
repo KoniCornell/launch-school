@@ -1,4 +1,4 @@
-
+'''Determining each objects type (class)'''
 # Comments show expected output
 print(type("Hello"))                # <class 'str'>
 print(type(5))                      # <class 'int'>
